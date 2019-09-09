@@ -1,8 +1,9 @@
-// This is the Link API
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
 import Layout from '../components/Layout';
 import SearchBar from '../components/searchbar/SearchBar'
 import SearchButton from '../components/searchbar/SearchButton'
-import { Grid, Row, Col } from 'react-flexbox-grid'
 
 const Index = () => (
     <Layout>
