@@ -63,7 +63,7 @@ export default function Search(props) {
       <Layout>
           <Row>
               <Col xs={12}>
-                  <h2>Search, you fucking cunt!</h2>
+                  <h2>Search</h2>
               </Col>
           </Row>
           <Row>
