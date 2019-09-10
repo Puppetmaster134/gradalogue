@@ -26,6 +26,21 @@ export default function ApplicationForm(props)
     const [greVerbal, setGreVerbal] = useState(0);
     const [greWriting, setGreWriting] = useState(0);
 
+    const [state, setState] = useState({
+        email : '',
+        universityName : '',
+        program : '',
+        degree : 'Masters',
+        accepted : false,
+        attending : false,
+        greQuant : 0,
+        greVerbal : 0,
+        greWriting : 0,
+        comments : '',
+        dateApplied : new Date(),
+        dateDecision : new Date()
+    })
+
     return (
         <Modal
             {...props}
@@ -45,7 +60,16 @@ export default function ApplicationForm(props)
                                     <Col>
                                         <Form.Group controlId="formUniversityName">
                                             <Form.Label>University</Form.Label>
-                                            <Form.Control type="text" placeholder="Name of the University" />
+                                            <Form.Control
+                                                type="text"
+                                                placeholder="Name of the University"
+                                                onChange={(event) =>
+                                                {
+                                                    event.persist();
+                                                    setState(state => {
+                                                        return { ...state, universityName: event.target.value }
+                                                    });
+                                                }} />
                                             <Form.Text className="text-muted">
                                             </Form.Text>
                                         </Form.Group>
@@ -56,17 +80,34 @@ export default function ApplicationForm(props)
                                     <Col>
                                         <Form.Group controlId="formProgram">
                                             <Form.Label>Program</Form.Label>
-                                            <Form.Control type="text" placeholder="Program or Department" />
+                                            <Form.Control
+                                                type="text"
+                                                placeholder="Program or Department"
+                                                onChange={(event) =>
+                                                {
+                                                    event.persist();
+                                                    setState(state => {
+                                                        return { ...state, program: event.target.value }
+                                                    });
+                                                }} />
                                         </Form.Group>
                                     </Col>
                                     <Col>
                                         <Form.Group controlId="formDegree">
                                             <Form.Label>Degree</Form.Label>
-                                            <Form.Control as="select">
-                                                <option>PhD</option>
+                                            <Form.Control
+                                                as="select"
+                                                onChange={(event) =>
+                                                {
+                                                    event.persist();
+                                                    setState(state => {
+                                                        return { ...state, degree: event.target.value }
+                                                    });
+                                                }}>
                                                 <option>Masters</option>
                                                 <option>Masters (Research)</option>
                                                 <option>Masters (Coursework)</option>
+                                                <option>PhD</option>
                                                 <option>Other</option>
                                             </Form.Control>
                                         </Form.Group>
@@ -93,10 +134,12 @@ export default function ApplicationForm(props)
                                             <Form.Label>Date Decision</Form.Label>
                                             <Form.Control as="div" className="datepicker-container">
                                                 <DatePicker
-                                                    selected={dateDecision}
+                                                    selected={state.dateDecision}
                                                     onChange={(val) =>
                                                     {
-                                                        setDateDecision(val)
+                                                        setState(state => {
+                                                            return { ...state, dateDecision: val }
+                                                        });
                                                     }}
                                                 />
                                             </Form.Control>
@@ -107,12 +150,30 @@ export default function ApplicationForm(props)
                                 <Form.Row>
                                     <Col xs={2}>
                                         <Form.Group controlId="formAccepted">
-                                            <Form.Check type="checkbox" label="Accepted" />
+                                            <Form.Check
+                                                type="checkbox"
+                                                label="Accepted"
+                                                onChange={(event) =>
+                                                {
+                                                    event.persist();
+                                                    setState(state => {
+                                                        return { ...state, accepted: event.target.checked }
+                                                    });
+                                                }} />
                                         </Form.Group>
                                     </Col>
                                     <Col xs={2}>
-                                        <Form.Group controlId="formAccepted">
-                                            <Form.Check type="checkbox" label="Attending" />
+                                        <Form.Group controlId="formAttending">
+                                            <Form.Check
+                                                type="checkbox"
+                                                label="Attending"
+                                                onChange={(event) =>
+                                                {
+                                                    event.persist();
+                                                    setState(state => {
+                                                        return { ...state, attending: event.target.checked }
+                                                    });
+                                                }} />
                                         </Form.Group>
                                     </Col>
                                 </Form.Row>
@@ -133,12 +194,15 @@ export default function ApplicationForm(props)
                                             <Form.Label>Quantitative</Form.Label>
                                             <Form.Control
                                                 type="number"
-                                                value={greQuant}
+                                                value={state.greQuant}
                                                 onChange={(event) =>
                                                 {
                                                     if(!!(event.target.value) && event.target.value <= 170 && event.target.value >= 0)
                                                     {
-                                                        setGreQuant(event.target.value);
+                                                        event.persist();
+                                                        setState(state => {
+                                                            return { ...state, greQuant: event.target.value }
+                                                        });
                                                     }
                                                 }}
                                             />
@@ -150,12 +214,15 @@ export default function ApplicationForm(props)
                                             <Form.Label>Verbal</Form.Label>
                                             <Form.Control
                                                 type="number"
-                                                value={greVerbal}
+                                                value={state.greVerbal}
                                                 onChange={(event) =>
                                                 {
                                                     if(!!(event.target.value) && event.target.value <= 170 && event.target.value >= 0)
                                                     {
-                                                        setGreVerbal(event.target.value);
+                                                        event.persist();
+                                                        setState(state => {
+                                                            return { ...state, greVerbal: event.target.value }
+                                                        });
                                                     }
                                                 }}
                                             />
@@ -167,13 +234,16 @@ export default function ApplicationForm(props)
                                             <Form.Label>Analytical Writing</Form.Label>
                                             <Form.Control
                                                 type="number"
-                                                value={greWriting}
+                                                value={state.greWriting}
                                                 step=".5"
                                                 onChange={(event) =>
                                                 {
                                                     if(!!(event.target.value) && event.target.value <= 6 && event.target.value >= 0)
                                                     {
-                                                        setGreWriting(event.target.value);
+                                                        event.persist();
+                                                        setState(state => {
+                                                            return { ...state, greWriting: event.target.value }
+                                                        });
                                                     }
                                                 }}
                                             />
@@ -187,8 +257,14 @@ export default function ApplicationForm(props)
                                             <Form.Label>Comments</Form.Label>
                                             <Form.Control
                                                 type="textarea"
-                                                placeholder="Comments"
-                                            />
+                                                placeholder="Number of Publications, Professor of Interest, Undergraduate GPA, etc."
+                                                onChange={(event) =>
+                                                {
+                                                    event.persist();
+                                                    setState(state => {
+                                                        return { ...state, comments: event.target.value }
+                                                    });
+                                                }}/>
                                         </Form.Group>
                                     </Col>
                                 </Form.Row>
@@ -197,9 +273,18 @@ export default function ApplicationForm(props)
                                     <Col>
                                         <Form.Group controlId="formBasicEmail">
                                             <Form.Label>Email Address</Form.Label>
-                                            <Form.Control type="email" placeholder="Email Address" />
+                                            <Form.Control
+                                                type="email"
+                                                placeholder="Email Address"
+                                                onChange={(event) =>
+                                                {
+                                                    event.persist();
+                                                    setState(state => {
+                                                        return { ...state, email: event.target.value }
+                                                    });
+                                                }} />
                                             <Form.Text className="text-muted">
-                                                Optional, but allows you to post followups later.
+                                                Optional, but allows you to post followups later. Nobody will ever see this but us and we will never spam you. I promise.
                                             </Form.Text>
                                         </Form.Group>
                                     </Col>
@@ -213,7 +298,11 @@ export default function ApplicationForm(props)
             </Modal.Body>
 
             <Modal.Footer>
-                <Button onClick={props.onHide}>Submit</Button>
+                <Button onClick={() =>
+                    {
+                        console.log(state);
+                        props.onHide();
+                    }}>Submit</Button>
             </Modal.Footer>
         </Modal>
     )
