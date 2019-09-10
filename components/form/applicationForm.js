@@ -296,7 +296,6 @@ export default function ApplicationForm(props)
             <Modal.Footer>
                 <Button onClick={() =>
                 {
-                    console.log('submitbutton',state)
                     props.onHide(state);
                 }}>
                     Submit

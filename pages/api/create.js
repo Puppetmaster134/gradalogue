@@ -1,29 +1,35 @@
+/*
+    Endpoint: /api/create
+    Author: Brian
+    Swagger: http://gradz.jsullivan.cc:8890/api-docs/index.html#/default
+*/
 import fetch from 'isomorphic-unfetch';
 
 export default async (req, res) => {
-  const {
-    body,
-    method
-  } = req
+    const {
+        body,
+        method
+    } = req
 
-  switch (method) {
-    case 'POST':
-      let apiResponse = await fetch(`http://gradz.jsullivan.cc:8890/query`, {
-          method: 'POST',
-          headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(body)
-      });
+    switch (method) {
+        case 'POST':
 
-      const responseBody = await apiResponse.json();
-      let searchResults = responseBody.apps;
+            let apiResponse = await fetch(`http://gradz.jsullivan.cc:8890/add`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body)
+            });
 
-      res.status(200).json({ searchResults })
-      break
-    default:
-      res.setHeader('Allow', ['POST'])
-      res.status(405).end(`Method ${method} Not Allowed`)
-  }
+            const responseBody = await apiResponse.json();
+
+            res.status(200).json({ responseBody })
+
+            break
+        default:
+            res.setHeader('Allow', ['POST'])
+            res.status(405).end(`Method ${method} Not Allowed`)
+    }
 }

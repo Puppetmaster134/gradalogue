@@ -33,11 +33,41 @@ import ApplicationForm from '../components/form/ApplicationForm'
 import '../styles/search.css'
 
 
+const postNewApplication = async app =>
+{
+    const queryBody = {
+        "application": {
+            "user": app.email,
+            "universityName":app.universityName ,
+            "program": app.program,
+            "degree": app.degree,
+            "accepted": app.accepted,
+            "attending": app.attending,
+            "greQuant":app.greQuant,
+            "greVerbal":app.greVerbal,
+            "greWriting":app.greWriting,
+            "comments": app.greComments,
+            "dateApplied": app.dateApplied,
+            "dateDecision": app.dateDecision
+        }
+    };
+
+    const res = await fetch(`http://localhost:3000/api/create`, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(queryBody)
+    });
+
+    var response = await res.json();
+}
+
 export default function Search(props) {
     const [state, setState] = useState({
         query : props.url.query.query,
-        modalShow : false,
-        submissionForm: ''
+        modalShow : false
     })
 
     const router = useRouter();
@@ -57,10 +87,6 @@ export default function Search(props) {
     }));
 
     const classes = useStyles();
-
-
-
-    console.log('state',state);
 
     return (
     <Layout>
@@ -111,20 +137,20 @@ export default function Search(props) {
 
                     <ApplicationForm
                         show={state.modalShow}
-                        onHide={(formState) =>
+                        onHide={async (formState) =>
                         {
-                            if(formState)
-                            {
-                                setState(state =>
-                                {
-                                    return {...state,submissionForm : 'tc'};
-                                })
-                            }
-
                             setState(state =>
                             {
                                 return {...state,modalShow : false};
                             })
+
+
+                            if(formState)
+                            {
+                                postNewApplication(formState);
+                            }
+
+
                         }}
                     />
                 </ButtonToolbar>
@@ -151,17 +177,17 @@ export default function Search(props) {
                         </TableHead>
                         <TableBody>
                             {props.searchResults.map(row => (
-                                <TableRow key={row.name}>
-                                    <TableCell className={classes.tablecell}  component="th" scope="row">{row.accepted ? "Accepted" : "Rejected"}</TableCell>
-                                    <TableCell className={classes.tablecell}  align="left">{row.accepted ? (row.attending ? "Attending" : "Not Attending") : "Rejected, Not Attending"}</TableCell>
-                                    <TableCell className={classes.tablecell}  align="left">{row.universityName}</TableCell>
-                                    <TableCell className={classes.tablecell} align="left">{row.program}</TableCell>
-                                    <TableCell className={classes.tablecell} align="left">{row.degree}</TableCell>
-                                    <TableCell className={classes.tablecell} align="left">{row.greVerbal}/{row.greQuantitative}/{row.greWriting}</TableCell>
-                                    <TableCell className={classes.tablecell} align="left"><Moment format="MMM DD,YYYY">{row.dateApplied}</Moment></TableCell>
-                                    <TableCell className={classes.tablecell} align="left"><Moment format="MMM DD,YYYY">{row.dateDecision}</Moment></TableCell>
-                                    <TableCell className={classes.tablecell} align="left">{row.comments}</TableCell>
-                                </TableRow>
+                                    <TableRow key={row.name}>
+                                        <TableCell className={classes.tablecell}  component="th" scope="row">{row.accepted ? "Accepted" : "Rejected"}</TableCell>
+                                        <TableCell className={classes.tablecell}  align="left">{row.accepted ? (row.attending ? "Attending" : "Not Attending") : "Rejected, Not Attending"}</TableCell>
+                                        <TableCell className={classes.tablecell}  align="left">{row.universityName}</TableCell>
+                                        <TableCell className={classes.tablecell} align="left">{row.program}</TableCell>
+                                        <TableCell className={classes.tablecell} align="left">{row.degree}</TableCell>
+                                        <TableCell className={classes.tablecell} align="left">{row.greVerbal}/{row.greQuantitative}/{row.greWriting}</TableCell>
+                                        <TableCell className={classes.tablecell} align="left"><Moment format="MMM DD,YYYY">{row.dateApplied}</Moment></TableCell>
+                                        <TableCell className={classes.tablecell} align="left"><Moment format="MMM DD,YYYY">{row.dateDecision}</Moment></TableCell>
+                                        <TableCell className={classes.tablecell} align="left">{row.comments}</TableCell>
+                                    </TableRow>
                             ))}
                         </TableBody>
                     </Table>
@@ -175,7 +201,6 @@ export default function Search(props) {
 
 Search.getInitialProps = async function(context) {
     var searchResults = [];
-    console.log(context)
 
     if(context.query)
     {
@@ -203,7 +228,11 @@ Search.getInitialProps = async function(context) {
         var {
             searchResults
         } = await res.json();
+
+        if(!searchResults)
+            searchResults = [];
     }
+
 
     return { searchResults };
 };
