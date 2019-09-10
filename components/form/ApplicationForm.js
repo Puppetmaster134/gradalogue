@@ -197,7 +197,7 @@ export default function ApplicationForm(props)
                                                     {
                                                         event.persist();
                                                         setState(state => {
-                                                            return { ...state, greQuant: event.target.value }
+                                                            return { ...state, greQuant: Number(event.target.value) }
                                                         });
                                                     }
                                                 }}
@@ -217,7 +217,7 @@ export default function ApplicationForm(props)
                                                     {
                                                         event.persist();
                                                         setState(state => {
-                                                            return { ...state, greVerbal: event.target.value }
+                                                            return { ...state, greVerbal: Number(event.target.value) }
                                                         });
                                                     }
                                                 }}
@@ -238,7 +238,7 @@ export default function ApplicationForm(props)
                                                     {
                                                         event.persist();
                                                         setState(state => {
-                                                            return { ...state, greWriting: event.target.value }
+                                                            return { ...state, greWriting: Number(event.target.value) }
                                                         });
                                                     }
                                                 }}
