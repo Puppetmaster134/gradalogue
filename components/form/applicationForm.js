@@ -20,12 +20,6 @@ import "react-datepicker/dist/react-datepicker.css";
 
 export default function ApplicationForm(props)
 {
-    const [dateApplied, setDateApplied] = useState();
-    const [dateDecision, setDateDecision] = useState();
-    const [greQuant, setGreQuant] = useState(0);
-    const [greVerbal, setGreVerbal] = useState(0);
-    const [greWriting, setGreWriting] = useState(0);
-
     const [state, setState] = useState({
         email : '',
         universityName : '',
@@ -120,10 +114,12 @@ export default function ApplicationForm(props)
                                             <Form.Label>Date Applied</Form.Label>
                                             <Form.Control as="div" className="datepicker-container">
                                                 <DatePicker
-                                                    selected={dateApplied}
+                                                    selected={state.dateApplied}
                                                     onChange={(val) =>
                                                     {
-                                                        setDateApplied(val)
+                                                        setState(state => {
+                                                            return { ...state, dateApplied: val }
+                                                        });
                                                     }}
                                                 />
                                             </Form.Control>
@@ -299,10 +295,12 @@ export default function ApplicationForm(props)
 
             <Modal.Footer>
                 <Button onClick={() =>
-                    {
-                        console.log(state);
-                        props.onHide();
-                    }}>Submit</Button>
+                {
+                    console.log('submitbutton',state)
+                    props.onHide(state);
+                }}>
+                    Submit
+                </Button>
             </Modal.Footer>
         </Modal>
     )
