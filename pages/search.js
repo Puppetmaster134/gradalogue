@@ -43,7 +43,7 @@ const postNewApplication = async app =>
             "degree": app.degree,
             "accepted": app.accepted,
             "attending": app.attending,
-            "greQuant":app.greQuant,
+            "greQuantitative":app.greQuantitative,
             "greVerbal":app.greVerbal,
             "greWriting":app.greWriting,
             "comments": app.greComments,
@@ -62,6 +62,8 @@ const postNewApplication = async app =>
     });
 
     var response = await res.json();
+
+    console.log(response)
 }
 
 export default function Search(props) {

@@ -27,7 +27,7 @@ export default function ApplicationForm(props)
         degree : 'Masters',
         accepted : false,
         attending : false,
-        greQuant : 0,
+        greQuantitative : 0,
         greVerbal : 0,
         greWriting : 0,
         comments : '',
@@ -190,14 +190,14 @@ export default function ApplicationForm(props)
                                             <Form.Label>Quantitative</Form.Label>
                                             <Form.Control
                                                 type="number"
-                                                value={state.greQuant}
+                                                value={state.greQuantitative}
                                                 onChange={(event) =>
                                                 {
                                                     if(!!(event.target.value) && event.target.value <= 170 && event.target.value >= 0)
                                                     {
                                                         event.persist();
                                                         setState(state => {
-                                                            return { ...state, greQuant: Number(event.target.value) }
+                                                            return { ...state, greQuantitative: Number(event.target.value) }
                                                         });
                                                     }
                                                 }}
