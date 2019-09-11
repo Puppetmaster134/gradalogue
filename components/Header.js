@@ -34,7 +34,7 @@ const postNewApplication = async app =>
             "greQuantitative":app.greQuantitative,
             "greVerbal":app.greVerbal,
             "greWriting":app.greWriting,
-            "comments": app.greComments,
+            "comments": app.comments,
             "dateApplied": app.dateApplied,
             "dateDecision": app.dateDecision
         }

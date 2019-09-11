@@ -17,10 +17,9 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 
-
-export default function ApplicationForm(props)
+const getDefaultState = () =>
 {
-    const [state, setState] = useState({
+    return {
         email : '',
         universityName : '',
         program : '',
@@ -33,7 +32,12 @@ export default function ApplicationForm(props)
         comments : '',
         dateApplied : new Date(),
         dateDecision : new Date()
-    })
+    }
+}
+
+export default function ApplicationForm(props)
+{
+    const [state, setState] = useState(getDefaultState())
 
     return (
         <Modal
@@ -297,6 +301,7 @@ export default function ApplicationForm(props)
                 <Button onClick={() =>
                 {
                     props.onHide(state);
+                    setState(getDefaultState())
                 }}>
                     Submit
                 </Button>
