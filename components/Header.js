@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
 
-import {Navbar, Nav, NavDropdown} from 'react-bootstrap';
+import {Navbar, Nav, NavDropdown, Container} from 'react-bootstrap';
 
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -50,8 +50,6 @@ const postNewApplication = async app =>
     });
 
     var response = await res.json();
-
-    console.log(response)
 }
 
 export default function Header()
@@ -64,35 +62,36 @@ export default function Header()
 
     return (
 
-        <Navbar className={classes.navbar} bg="light" expand="lg">
-            <Navbar.Brand href="#home">GradClone</Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="mr-auto">
-                <Link><Nav.Link href="/search">Search</Nav.Link></Link>
-                <Nav.Link onClick={() => setState({...state,modalShow : true})}>Submit</Nav.Link>
-                <Link><Nav.Link href="/about">About</Nav.Link></Link>
+        <Navbar fixed="top" className={classes.navbar} bg="light" expand="lg">
+            <Container>
+                <Navbar.Brand href="/index">GradClone</Navbar.Brand>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                <Nav className="mr-auto">
+                    <Nav.Link href="/search">Search</Nav.Link>
+                    <Nav.Link onClick={() => setState({...state,modalShow : true})}>Submit</Nav.Link>
 
-                <ApplicationForm
-                    show={state.modalShow}
-                    onHide={async (formState) =>
-                    {
-                        setState(state =>
+                    <ApplicationForm
+                        show={state.modalShow}
+                        onHide={async (formState) =>
                         {
-                            return {...state,modalShow : false};
-                        })
+                            setState(state =>
+                            {
+                                return {...state,modalShow : false};
+                            })
 
 
-                        if(formState)
-                        {
-                            postNewApplication(formState);
-                        }
+                            if(formState)
+                            {
+                                postNewApplication(formState);
+                            }
 
 
-                    }}
-                />
-            </Nav>
-            </Navbar.Collapse>
+                        }}
+                    />
+                </Nav>
+                </Navbar.Collapse>
+            </Container>
         </Navbar>
     )
 }

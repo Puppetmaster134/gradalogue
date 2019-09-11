@@ -7,6 +7,9 @@ import Header from './Header';
 
 import Head from 'next/head';
 
+
+import '../styles/_layout.css';
+
 //import { Grid, Row, Col } from 'react-flexbox-grid';
 
 const layoutStyle = {
@@ -16,11 +19,11 @@ const Layout = props => (
     <div>
         <Head>
             <link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet"/>
-
             <title>GradClone</title>
         </Head>
-        <Container>
-            <Header/>
+
+        <Header/>
+        <Container className="mainContainer">
             {props.children}
         </Container>
 

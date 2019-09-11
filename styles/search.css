@@ -1,4 +1,13 @@
-.btn-toolbar {
-    margin-top:5px;
-    margin-bottom:5px;
+.react-bootstrap-table{
+    margin-top:.4rem;
+    padding:.2rem;
+}
+
+.table td{
+    overflow-wrap:break-word;
+    padding:.5rem;
+}
+
+.table-header th{
+    overflow-wrap:break-word;
 }
