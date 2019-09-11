@@ -1,56 +1,15 @@
-
-
+import { useRouter } from 'next/router';
+import { useState } from 'react';
 import Link from 'next/link';
-
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 
 
 import {Navbar, Nav, NavDropdown, Container} from 'react-bootstrap';
 
-import { useRouter } from 'next/router';
-import { useState } from 'react';
-
 import ApplicationForm from '../components/form/ApplicationForm'
+import postNewApplication from '../components/form/PostApplication'
 
 
 
-const useStyles = makeStyles(theme => ({
-    navbar: {
-        marginBottom: theme.spacing(3)
-    }
-}));
-
-const postNewApplication = async app =>
-{
-    const queryBody = {
-        "application": {
-            "user": app.email,
-            "universityName":app.universityName ,
-            "program": app.program,
-            "degree": app.degree,
-            "accepted": app.accepted,
-            "attending": app.attending,
-            "greQuantitative":app.greQuantitative,
-            "greVerbal":app.greVerbal,
-            "greWriting":app.greWriting,
-            "comments": app.comments,
-            "dateApplied": app.dateApplied,
-            "dateDecision": app.dateDecision
-        }
-    };
-
-    const res = await fetch(`http://localhost:3000/api/create`, {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(queryBody)
-    });
-
-    var response = await res.json();
-}
 
 export default function Header()
 {
@@ -58,11 +17,10 @@ export default function Header()
         modalShow : false
     })
 
-    const classes = useStyles();
 
     return (
 
-        <Navbar fixed="top" className={classes.navbar} bg="light" expand="lg">
+        <Navbar fixed="top" bg="light" expand="lg">
             <Container>
                 <Navbar.Brand href="/index">GradClone</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />

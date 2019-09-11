@@ -7,156 +7,20 @@ import fetch from 'isomorphic-unfetch';
 //React Bootstrap
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
-import Button from 'react-bootstrap/Button';
 
 //React Bootstrap Table
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import BootstrapTable from 'react-bootstrap-table-next';
-
-//Material UI Grid
-import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-
-//Moment
-import moment from 'moment';
-import Moment from 'react-moment';
-import 'moment-timezone';
 
 //Custom Components
 import Layout from '../components/Layout';
 import SearchBar from '../components/searchbar/SearchBar'
 import SearchButton from '../components/searchbar/SearchButton'
 import ApplicationForm from '../components/form/ApplicationForm'
+import tableColumns from '../components/searchTable/TableSchema'
 
 //Custom Styling
 import '../styles/search.css'
-
-
-const postNewApplication = async app =>
-{
-    const queryBody = {
-        "application": {
-            "user": app.email,
-            "universityName":app.universityName ,
-            "program": app.program,
-            "degree": app.degree,
-            "accepted": app.accepted,
-            "attending": app.attending,
-            "greQuantitative":app.greQuantitative,
-            "greVerbal":app.greVerbal,
-            "greWriting":app.greWriting,
-            "comments": app.greComments,
-            "dateApplied": app.dateApplied,
-            "dateDecision": app.dateDecision
-        }
-    };
-
-    const res = await fetch(`http://localhost:3000/api/create`, {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(queryBody)
-    });
-
-    var response = await res.json();
-}
-
-const useStyles = makeStyles(theme => ({
-    root: {
-        width: '100%',
-        marginTop: theme.spacing(3),
-        overflowX: 'auto',
-    },
-    table: {
-        minWidth: 650
-    },
-    tableheader:{
-        fontSize: '.8rem',
-        fontWeight: 'bold'
-    },
-    tablecell: {
-        fontSize: '.6rem'
-    }
-}));
-
-const tableColumns = [
-{
-    text: 'Doc Id',
-    dataField: 'id',
-    hidden: true
-},
-{
-    text: 'Accepted',
-    dataField: 'accepted',
-    formatter: (cell,row,rowIndex,formatExtraData) =>
-    {
-        return (cell) ? "Accepted" : "Rejected"
-    },
-    style: (cell,row,rowIndex,formatExtraData) =>
-    {
-        return (cell) ? {
-            "background-color":"#dbffdb"
-        } : {
-            "background-color":"#ffc4bd"
-        }
-    }
-},
-{
-    text: 'Attending',
-    dataField: 'attending',
-    formatter: (cell,row,rowIndex,formatExtraData) =>
-    {
-        return (row.accepted && row.attending) ? "Attending" : "Not Attending"
-    }
-},
-{
-    text: 'University',
-    dataField: 'universityName'
-},
-{
-    text: 'Program',
-    dataField: 'program'
-},
-{
-    text: 'Degree',
-    dataField: 'degree'
-},
-{
-    text: 'GRE',
-    dataField: 'greQuantitative',
-    formatter: (cell,row,rowIndex,formatExtraData) =>
-    {
-        return `${row.greQuantitative || "Not Reported"}\\${row.greVerbal || "Not Reported"}\\${row.greWriting || "Not Reported"}`
-    }
-},
-{
-    text: 'Applied',
-    dataField: 'dateApplied',
-    formatter: (cell,row,rowIndex,formatExtraData) =>
-    {
-        return moment(cell).format('MMM DD, YYYY');
-    }
-},
-{
-    text: 'Decision',
-    dataField: 'dateDecision',
-    formatter: (cell,row,rowIndex,formatExtraData) =>
-    {
-        return moment(cell).format('MMM DD, YYYY');
-    }
-},
-{
-    text: 'Comments',
-    dataField: 'comments'
-}]
 
 export default function Search(props) {
     const [state, setState] = useState({
@@ -166,8 +30,6 @@ export default function Search(props) {
 
     const router = useRouter();
 
-
-    const classes = useStyles(props);
 
     return (
     <Layout>
@@ -213,57 +75,12 @@ export default function Search(props) {
 
         <Row>
             <Col xs={12}>
-
-
-
-            <BootstrapTable
-                keyField='id'
-                data={ props.searchResults }
-                columns={ tableColumns }
-                headerClasses='table-header'
-            />
-
-
-
-
-
-
-
-
-            {/*
-                <Paper className={classes.root}>
-                    <Table className={classes.table} size="small">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell className={classes.tableheader} align="left">Accepted</TableCell>
-                                <TableCell className={classes.tableheader}  align="left">Attending</TableCell>
-                                <TableCell className={classes.tableheader}  align="left">University</TableCell>
-                                <TableCell className={classes.tableheader}  align="left">Program</TableCell>
-                                <TableCell className={classes.tableheader}  align="left">Degree</TableCell>
-                                <TableCell className={classes.tableheader}  align="left">GRE</TableCell>
-                                <TableCell className={classes.tableheader}  align="left">Applied</TableCell>
-                                <TableCell className={classes.tableheader}  align="left">Decision</TableCell>
-                                <TableCell className={classes.tableheader}  align="left">Comments</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {props.searchResults.map(row => (
-                                    <TableRow key={row.name}>
-                                        <TableCell className={classes.tablecell} style={row.accepted ? {backgroundColor:"#e1ffdb", textAlign:"center" } : { backgroundColor:"#ffdbdb", textAlign:"center" }} component="th" scope="row">{row.accepted ? "Accepted" : "Rejected"}</TableCell>
-                                        <TableCell className={classes.tablecell} align="left">{row.accepted ? (row.attending ? "Attending" : "Not Attending") : "Rejected, Not Attending"}</TableCell>
-                                        <TableCell className={classes.tablecell} align="left">{row.universityName}</TableCell>
-                                        <TableCell className={classes.tablecell} align="left">{row.program}</TableCell>
-                                        <TableCell className={classes.tablecell} align="left">{row.degree}</TableCell>
-                                        <TableCell className={classes.tablecell} align="left">{row.greVerbal}/{row.greQuantitative}/{row.greWriting}</TableCell>
-                                        <TableCell className={classes.tablecell} align="left"><Moment format="MMM DD,YYYY">{row.dateApplied}</Moment></TableCell>
-                                        <TableCell className={classes.tablecell} align="left"><Moment format="MMM DD,YYYY">{row.dateDecision}</Moment></TableCell>
-                                        <TableCell className={classes.tablecell} align="left">{row.comments}</TableCell>
-                                    </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </Paper>
-            */}
+                <BootstrapTable
+                    keyField='id'
+                    data={ props.searchResults }
+                    columns={ tableColumns }
+                    headerClasses='table-header'
+                />
             </Col>
         </Row>
     </Layout>
