@@ -83,6 +83,10 @@ export default function Search(props) {
         table: {
             minWidth: 650
         },
+        tableheader:{
+            fontSize: '.8rem',
+            fontWeight: 'bold'
+        },
         tablecell: {
             fontSize: '.6rem'
         }
@@ -131,58 +135,27 @@ export default function Search(props) {
 
         <Row>
             <Col xs={12}>
-                <ButtonToolbar
-                >
-                    <Button variant="primary" onClick={() => setState({...state,modalShow : true})}>
-                        Add
-                    </Button>
-
-                    <ApplicationForm
-                        show={state.modalShow}
-                        onHide={async (formState) =>
-                        {
-                            setState(state =>
-                            {
-                                return {...state,modalShow : false};
-                            })
-
-
-                            if(formState)
-                            {
-                                postNewApplication(formState);
-                            }
-
-
-                        }}
-                    />
-                </ButtonToolbar>
-            </Col>
-        </Row>
-
-
-        <Row>
-            <Col xs={12}>
                 <Paper className={classes.root}>
                     <Table className={classes.table} size="small">
                         <TableHead>
                             <TableRow>
-                                <TableCell className={classes.tablecell} align="left">Accepted</TableCell>
-                                <TableCell className={classes.tablecell}  align="left">Attending</TableCell>
-                                <TableCell className={classes.tablecell}  align="left">University</TableCell>
-                                <TableCell className={classes.tablecell}  align="left">Program</TableCell>
-                                <TableCell className={classes.tablecell}  align="left">Degree</TableCell>
-                                <TableCell className={classes.tablecell}  align="left">GRE</TableCell>
-                                <TableCell className={classes.tablecell}  align="left">Applied</TableCell>
-                                <TableCell className={classes.tablecell}  align="left">Decision</TableCell>
-                                <TableCell className={classes.tablecell}  align="left">Comments</TableCell>
+                                <TableCell className={classes.tableheader} align="left">Accepted</TableCell>
+                                <TableCell className={classes.tableheader}  align="left">Attending</TableCell>
+                                <TableCell className={classes.tableheader}  align="left">University</TableCell>
+                                <TableCell className={classes.tableheader}  align="left">Program</TableCell>
+                                <TableCell className={classes.tableheader}  align="left">Degree</TableCell>
+                                <TableCell className={classes.tableheader}  align="left">GRE</TableCell>
+                                <TableCell className={classes.tableheader}  align="left">Applied</TableCell>
+                                <TableCell className={classes.tableheader}  align="left">Decision</TableCell>
+                                <TableCell className={classes.tableheader}  align="left">Comments</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {props.searchResults.map(row => (
                                     <TableRow key={row.name}>
-                                        <TableCell className={classes.tablecell}  component="th" scope="row">{row.accepted ? "Accepted" : "Rejected"}</TableCell>
-                                        <TableCell className={classes.tablecell}  align="left">{row.accepted ? (row.attending ? "Attending" : "Not Attending") : "Rejected, Not Attending"}</TableCell>
-                                        <TableCell className={classes.tablecell}  align="left">{row.universityName}</TableCell>
+                                        <TableCell className={classes.tablecell} style={row.accepted ? {backgroundColor:"#e1ffdb", textAlign:"center" } : { backgroundColor:"#ffdbdb", textAlign:"center" }} component="th" scope="row">{row.accepted ? "Accepted" : "Rejected"}</TableCell>
+                                        <TableCell className={classes.tablecell} align="left">{row.accepted ? (row.attending ? "Attending" : "Not Attending") : "Rejected, Not Attending"}</TableCell>
+                                        <TableCell className={classes.tablecell} align="left">{row.universityName}</TableCell>
                                         <TableCell className={classes.tablecell} align="left">{row.program}</TableCell>
                                         <TableCell className={classes.tablecell} align="left">{row.degree}</TableCell>
                                         <TableCell className={classes.tablecell} align="left">{row.greVerbal}/{row.greQuantitative}/{row.greWriting}</TableCell>
