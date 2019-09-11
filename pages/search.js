@@ -33,7 +33,7 @@ export default function Search(props) {
 
     return (
     <Layout>
-        <Row className="justify-content-md-center" style={{paddingTop:".8rem"}}>
+        <Row className="justify-content-md-center">
             <Col xs={2} style={{textAlign:"center"}}>
                 <h2>Search</h2>
             </Col>
