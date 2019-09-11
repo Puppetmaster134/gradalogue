@@ -20,6 +20,7 @@ const Index = () => (
                     This page was built for fun just to play around with React, Next.js, and Elasticsearch.
                     Its conception was heavily influenced by <Link href="http://thegradcafe.com"><a>The Grad Cafe</a></Link>, which could definitely use some improvements to their search tool.
                     Hopefully you find this app easy to use and full of useful information.
+                    If you like it and you aren't on a student budget yourself, consider <Link href="/donate"><a>donating</a></Link> to our server costs!
                 </p>
                 <p>
                     <h4>A code we abide by: </h4>

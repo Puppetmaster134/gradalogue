@@ -28,6 +28,7 @@ export default function Header()
                 <Nav className="mr-auto">
                     <Nav.Link href="/search">Search</Nav.Link>
                     <Nav.Link onClick={() => setState({...state,modalShow : true})}>Submit</Nav.Link>
+                    <Nav.Link href="/donate">Donate</Nav.Link>
 
                     <ApplicationForm
                         show={state.modalShow}
