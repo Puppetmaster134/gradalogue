@@ -1,5 +1,8 @@
-require('dotenv').config()
 const withCSS = require('@zeit/next-css')
+
+if (process.env.NODE_ENV == 'development') {
+  require('dotenv').config()
+}
 
 /*
 if (typeof require !== "undefined") {
