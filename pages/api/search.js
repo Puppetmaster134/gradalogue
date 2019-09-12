@@ -5,6 +5,8 @@
 */
 import fetch from 'isomorphic-unfetch';
 
+const searchUrl = process.env.SEARCH_HOST;
+
 export default async (req, res) => {
   const {
     body,
@@ -13,7 +15,7 @@ export default async (req, res) => {
 
   switch (method) {
     case 'POST':
-      let apiResponse = await fetch(`http://gradz.jsullivan.cc:8890/query`, {
+      let apiResponse = await fetch(`${searchUrl}/query`, {
           method: 'POST',
           headers: {
               'Accept': 'application/json',
